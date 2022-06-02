@@ -1,0 +1,840 @@
+/*
+27May2022: Ver DEV 2.1
+*/
+
+
+
+try {
+
+        document.querySelector('#ar-anchor').insertAdjacentHTML('afterbegin',
+            `
+
+<UL class=navbar>
+
+<!-- START OF NAVIGATION CONFIGURATION -->
+
+<LI label='Quality Home Page'>Home</LI>
+	<LI label='Executive Summary'>Executive Summary</LI>
+	
+	<LI label='Quality Over Time' >Quality Over Time</LI>	
+
+	<LI label='Quality Events' >Quality Events</LI>
+	
+	<LI label='CMCD Exceptions' >CMCD Exceptions</LI>
+
+
+<!-- MORE MENU -->
+
+	<LI id='ar-nav-more' style="right: 0" onclick='return false;'>More
+	<ul>
+	<LI label='Protocol Deviations' >Protocol Deviations</LI>
+	<LI label='Serious Adverse Events' >Serious Adverse Events</LI>
+	<LI label='Audit Planning' >Audit Planning</LI>
+	<LI label='Audit Summary' >Audit Summary</LI>
+	<LI label='Audit Target Completion Date (TCD) Detail' >Audit Target Completion Date (TCD) Detail</LI>
+	<LI label='Audit Verification Detail' >Audit Verification Detail</LI>
+	<LI label='Informed Consent' >Informed Consent</LI>
+	<LI label='Issues and Actions Log' >Issues and Actions Log</LI>
+	<LI label='Site Quality Detail' >Site Quality Detail</LI>
+	<LI label='SDR' >SDR</LI>
+	<LI label='Protocol Specific and GCP Training' >Protocol Specific and GCP Training</LI>
+	<LI label='MV PD IAL Timelines' >MV PD IAL Timelines</LI>
+	<LI label='Monitoring Visit Detail' >Monitoring Visit Detail</LI>
+	<LI label='Site List' >Site List</LI>
+	<LI label='Reference' >Reference</LI>
+
+	  </ul>	
+	</li>
+
+<!-- END OF NAVIGATION CONFIGURATION -->
+
+	
+</UL>
+<div id='ar-marking-reset-btn' onclick="document.querySelector('#ar-marking-reset>a').click();">
+	<div style='position:absolute; top: 2px; width: 18px; height: 18px; border-bottom: 2px solid;  border-image: linear-gradient(to right, transparent 50%, #F49C34 0%) 100% 1;'>
+		<div style='position: absolute; left: 2px; top: 5px; width: 13px; height: 6px; background: linear-gradient(90deg, transparent 40%, #F49C34 50%); border: 2px solid #F49C34; transform: rotate(-45deg);'></div>
+	</div>
+</div>
+<div id='ar-filter-init' onload="var filterSummaryInit = 0;" onclick="document.getElementById('ar-filter-box').style.display='block';">
+<SPAN style="text-align: center; width: 100%; height: 100%; FONT-SIZE: 23px; FONT-FAMILY: Webdings; DISPLAY: inline-block; transform: rotate(270deg) scale(1.5, 1); line-height:25px;">X</SPAN>
+</div>
+<div id='ar-info' onclick="document.getElementById('ar-info-box').style.display='block';">
+<SPAN style="text-align: center; width: 100%; height: 100%; FONT-SIZE: 23px; DISPLAY: inline-block;">?</SPAN>
+</div>
+`);
+
+     		var currentPage = 0;
+		
+		try {
+			// Select the node that will be observed for mutations
+			const targetNode_1 = document.querySelector('#nav-trigger>input');
+
+			// Options for the observer (which mutations to observe)
+			const config = {
+				attributes: true,
+				childList: true,
+				subtree: true
+			};
+
+			// Callback function to execute when mutations are observed
+			const callback_1 = function(mutationsList, observer) {
+
+				// Use traditional 'for loops' for IE 11
+				for (const mutation_1 of mutationsList) {
+					if (mutation_1.type === 'childList') {
+						console.log('A child node has been added or removed.');
+					} else if (mutation_1.type === 'attributes') {
+						currentPage = 1;
+						console.log('The ' + mutation_1.attributeName + ' attribute was modified.');
+						setTimeout(function() {
+							document.querySelectorAll('.navbar li').forEach(li => {
+								if (li.getAttribute('label') == document.querySelector('#nav-trigger>input').value) {
+									li.classList.add('active');
+									li.parentNode.parentNode.classList.add('active');
+									li.parentNode.parentNode.parentNode.parentNode.classList.add('active');
+								} else {
+								li.classList.remove('active');
+								}
+
+								if ((li.children.length >= 1)&&(li.matches('.navbar>li'))) {
+									try{
+										li.querySelector(':scope>span').remove();
+									}catch(e){}
+									li.insertAdjacentHTML('beforeend', '<span>&#9660;</span>');
+								}
+
+							});
+						}, 200);
+					}
+
+				}
+			};
+
+
+			// Create an observer instance linked to the callback function
+			const observer_1 = new MutationObserver(callback_1);
+
+			// Start observing the target node for configured mutations
+			observer_1.observe(targetNode_1, config);
+		} catch (e) {}
+
+        document.querySelector('#nav-trigger>a').click();
+		
+		document.querySelectorAll('.navbar li').forEach(li => {
+            if ((li.getAttribute('label') == null) || (li.getAttribute('label') == '')) {} else {
+                li.classList.add('navlink');
+            }
+        });
+		
+		document.querySelectorAll('.navbar li').forEach(li => {
+			li.classList.remove('active');
+		});
+
+        document.querySelectorAll('.navbar li.navlink').forEach(li => li.addEventListener('click', e => {
+            e.stopPropagation();
+            var pIndex = li.getAttribute('label');
+            console.log(pIndex);
+            document.querySelector('#nav-trigger>input').value = pIndex;
+            document.querySelector('#nav-trigger>input').focus();
+            document.querySelector('#nav-trigger>input').blur();
+        }));
+
+        try {
+            if ((window.location.href.includes('&ar+') || window.location.href.includes('&ar-')) && window.location.href.includes('&arUI=')) {} else {
+                var initCount = 0;
+                var init = setInterval(function() {
+                    check = 0;
+                    initCount += 1;
+                    console.log('Initializing...' + initCount);
+                    try {
+
+                        if (window.location.href.includes('&ar+') || window.location.href.includes('&ar-')) {
+                            check += 1;
+                        } else {
+                            history.pushState('', '', window.location.href + '&ar+');
+                        }
+
+                    } catch (e) {}
+
+                    try {
+
+                        if (window.location.href.includes('arUI')) {
+                            check += 1;
+                        } else {
+                            history.pushState('', '', window.location.href + '&arUI=0');
+                        }
+
+                    } catch (e) {}
+
+                    if (check === 2) {
+                        console.log("AR Custom UI initialized...");
+						clearInterval(init);
+                    }
+
+                    if (initCount === 10) {
+                        clearInterval(init);
+                    }
+
+                }, 200)
+            }
+        } catch (e) {}
+
+
+
+	
+	document.querySelectorAll('.navbar>li>ul>li').forEach(li => {
+
+            if (li.children.length >= 1) {
+		try{
+			li.querySelector(':scope>span').remove();
+		}catch(e){}
+                li.style.display = 'flex';
+                li.insertAdjacentHTML('afterbegin', '<span style="width: 17px; height: 17px; border-radius: 10px; display: inline-block; position: absolute; right: 2px; font-size: 16px;">+</span>');
+
+                li.querySelector('span').addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    if (li.querySelector(':scope>ul').style.height == 'auto') {
+                        li.querySelector(':scope>ul').removeAttribute('style');
+                        li.querySelector('span').style.transition = '0.2s';
+                        li.querySelector('span').style.transform = 'rotate(0deg)';
+                    } else {
+                        li.querySelector(':scope>ul').style.height = 'auto';
+                        li.querySelector('span').style.transition = '0.2s';
+                        li.querySelector('span').style.transform = 'rotate(45deg)';
+                    }
+                });
+            }
+        });
+	
+	
+	setTimeout(function(){
+		if (currentPage == 0) {
+			document.querySelectorAll('.navbar li').forEach(li => {
+				if (li.getAttribute('label') == document.querySelector('#nav-trigger>input').value) {
+					li.classList.add('active');
+					li.parentNode.parentNode.classList.add('active');
+					li.parentNode.parentNode.parentNode.parentNode.classList.add('active');
+				} else {
+					li.classList.remove('active');
+				}
+
+				if ((li.children.length >= 1)&&(li.matches('.navbar>li'))) {
+					try{
+						li.querySelector(':scope>span').remove();
+					}catch(e){}
+					li.insertAdjacentHTML('beforeend', '<span>&#9660;</span>');
+				}
+
+			});
+		}
+	}, 2000);
+	
+
+	
+
+
+        // Monitor More Menu
+
+        /*
+		document.querySelectorAll('.navbar li').forEach(li => {
+                if (li.getAttribute('label') == document.querySelector('#nav-trigger>input').value) {
+                    li.classList.add('active');
+                    li.parentNode.parentNode.classList.add('active');
+                    li.parentNode.parentNode.parentNode.parentNode.classList.add('active');
+                } else {
+                    li.classList.remove('active');
+                }
+            });
+			*/
+
+            document.querySelectorAll('.navbar>li>ul').forEach(ul => {
+		ul.parentNode.addEventListener('mouseenter',function(){
+			if(!ul.parentNode.matches('#ar-nav-more>ul>li')){
+				ul.removeAttribute('style');
+				ul.style.display = "block";
+				ul.style.top = ul.parentNode.getBoundingClientRect().top + ul.parentNode.offsetHeight - 5 + 'px';
+				ul.style.left = ul.parentNode.getBoundingClientRect().left - (160 - ul.parentNode.offsetWidth)*0.5 + 'px'; 
+			}			
+		});
+		
+		ul.parentNode.addEventListener('mouseleave',function(){
+			if(!ul.parentNode.matches('#ar-nav-more>ul>li')){
+				ul.removeAttribute('style');
+			}					
+		});
+            });
+ 
+
+
+
+	//Activate dynamic more menu
+	var resizeMore = new ResizeObserver(function(){
+                          try {
+                                    var navbar = document.querySelector('#ar-anchor>.navbar');
+                                    var armore = document.querySelector('#ar-nav-more');
+
+                                    if (navbar.scrollWidth > navbar.offsetWidth) {
+										
+										for(var i = navbar.querySelectorAll(':scope>li').length;i >0; i -= 1){
+											if (navbar.scrollWidth <= navbar.offsetWidth){
+												break;
+                                            }
+											//console.log(i);
+                                        if (navbar.lastElementChild.previousElementSibling.previousElementSibling != null) {
+											//console.log(i);
+											
+                                            navbar.lastElementChild.previousElementSibling.classList.add('moved');
+											try{
+												navbar.lastElementChild.previousElementSibling.querySelector(':scope>ul').removeAttribute('style');
+												navbar.lastElementChild.previousElementSibling.querySelector(':scope>ul').removeEventListener('mouseenter', handleMouseEnter);
+												navbar.lastElementChild.previousElementSibling.querySelector(':scope>ul').removeEventListener('mouseleave', handleMouseLeave);
+                                            }catch(e){}
+											armore.querySelector('ul').prepend(navbar.lastElementChild.previousElementSibling);
+
+                                        }
+                                        }
+                                    } else {
+										for(var i = armore.querySelectorAll(':scope>ul>li.moved').length; i >=0; i -= 1){
+                                        if (armore.querySelector('ul').firstElementChild.matches('.moved')) {
+                                            navbar.insertBefore(armore.querySelector('ul').firstElementChild, navbar.lastElementChild);
+											if (navbar.scrollWidth > navbar.offsetWidth){
+												armore.querySelector('ul').prepend(navbar.lastElementChild.previousElementSibling);
+												break;
+                                            }
+                                            }
+                                        }
+                                    }
+			document.querySelectorAll('.navbar li').forEach(li => {
+                if (li.getAttribute('label') == document.querySelector('#nav-trigger>input').value) {
+                    li.classList.add('active');
+                    li.parentNode.parentNode.classList.add('active');
+                    li.parentNode.parentNode.parentNode.parentNode.classList.add('active');
+                } else {
+                    li.classList.remove('active');
+                }
+            });
+									
+				
+				document.querySelectorAll('.navbar li').forEach(li => {
+					if ((li.children.length >= 1)&&(li.matches('.navbar>li'))) {
+					try{
+						li.querySelector(':scope>span').remove();
+					}catch(e){}
+						li.insertAdjacentHTML('beforeend', '<span>&#9660;</span>');
+					}
+
+				});
+				
+									
+				document.querySelectorAll('.navbar>li>ul>li').forEach(li => {
+
+					if ((li.children.length >= 1)&&(li.matches('.moved'))) {
+						try{
+							li.querySelector(':scope>span').remove();
+						}catch(e){}
+						li.style.display = 'flex';
+						li.insertAdjacentHTML('afterbegin', '<span style="width: 17px; height: 17px; border-radius: 10px; display: inline-block; position: absolute; right: 2px; font-size: 16px;">+</span>');
+
+						li.querySelector('span').addEventListener('click', function(e) {
+							e.stopPropagation();
+							    if (li.querySelector(':scope>ul').style.height == 'auto') {
+								li.querySelector(':scope>ul').removeAttribute('style');
+								li.querySelector('span').style.transition = '0.2s';
+								li.querySelector('span').style.transform = 'rotate(0deg)';
+							    } else {
+								li.querySelector(':scope>ul').style.height = 'auto';
+								li.querySelector('span').style.transition = '0.2s';
+								li.querySelector('span').style.transform = 'rotate(45deg)';
+							    }
+						});
+					}
+				});		
+
+                                } catch (e) {}
+});
+
+resizeMore.observe(document.querySelector('.navbar'));
+
+
+
+        function checkInfo() {
+            try {
+                if (document.querySelector('#ar-info-content').firstChild != null) {
+                    document.querySelector('#ar-info').style.opacity = 1;
+                    document.querySelector('#ar-info').style.pointerEvents = 'auto';
+
+                    document.querySelector('#ar-anchor').insertAdjacentHTML('beforeend',
+                        `
+			<div class="filter-modal" id="ar-info-box">
+				<div class="modal-bg" style="left: 10%; width: 80%; height: 75%;">
+					<div id="modal-close-btn" style="font-size: 48px !important; top: 8px; right: 8px; position: absolute; font-weight: bold; color: black; z-index: 10000; line-height: 1;" onclick="document.getElementById('ar-info-box').style.display='none'">×</div>
+					<div class="modal-content"  style="overflow: auto; height: 95%; width: 90%; left: 5%; top: 2.5%; padding: 0;">
+					</div>
+				</div>
+			</div>
+
+			`);
+
+                    setTimeout(function() {
+                        try {
+                            document.querySelector('#ar-info-box .modal-content').appendChild(document.querySelector('#ar-info-content'));
+                            document.querySelector('#ar-info-box #ar-info-content').style.height = '95%';
+                            document.querySelector('#ar-info-box #ar-info-content').style.width = '100%';
+                            document.querySelector('#ar-info-box #ar-info-content').style.overflow = 'auto';
+                            document.querySelector('#ar-info-box #ar-info-content iframe').style.height = '95%';
+                            document.querySelector('#ar-info-box #ar-info-content iframe').style.width = '100%';
+                        } catch (e) {}
+                    }, 500);
+
+
+
+
+                    console.log('AR info initialized ... ');
+                }
+            } catch (e) {}
+        }
+
+        document.querySelector('#ar-anchor').insertAdjacentHTML('beforeend',
+            `
+<div class="filter-modal" id="ar-filter-box">
+	<div class="modal-bg">
+	<div id="ar-filter-help" style="display: none; position: absolute; top:0; left:20px; width: 210px;">
+		<div id="help-bubble" style="display: flex; position:absolute; top: 10px; background-color: #F49C34; height: 30px; width: 210px; text-align: center; z-index: 100">
+			<span style="line-height: 30px; margin-left: 10px;font-size: 14px">Click to open filter panel.</span>
+			<span style="line-height: 30px; font-size: 20px; margin-left: 25px; z-index: 199" onclick="document.querySelector('#ar-filter-help').style.display = 'none'; if (window.location.href.includes('ar+')) {history.pushState('', '', window.location.href.replace('ar+','ar-'));} else {history.pushState('', '', window.location.href + '&ar+');}">×</span></div>
+		<div id="help-arrow" style="position: absolute; top:40px; left: 100px; width: 0; border-left: 10px solid Transparent; border-right: 10px solid transparent; border-top: 10px solid #F49C34; z-index: 100 "></div>
+	</div>
+		<div id="modal-close-btn" style="font-size: 48px !important; top: 8px; right: 8px; position: absolute; font-weight: bold; color: black; z-index: 10000; line-height: 1;" onclick="document.getElementById('ar-filter-box').style.display='none'">×</div>
+		<div class="filter-control" style="width: 150px !important; right: 30px; margin-top: 20px; position: absolute; padding-bottom: 0px !important; padding-top: 0px !important; padding-left: 0px !important; padding-right: 10px !important;">
+			<div class="filter-block" id="ar-filter-reset" style="width: 150px !important; margin-top: 20px; margin-right: 0px;"></div>
+			<div class="filter-block" style="width: 150px !important; margin-top: 20px; margin-right: 0px;">
+				<a id="expand-all-filters" style="height: 44px; width: 146px; letter-spacing: -0.5px;" href="javascript:void(0)">Expand All Filters</a>
+			</div>
+			<div class="filter-block" style="width: 150px !important; margin-top: 20px; margin-right: 0px;">
+				<a id="collapse-all-filters" style="height: 44px; width: 146px; letter-spacing: -0.5px;" href="javascript:void(0)">Collapse All Filters</a>
+			</div>
+		</div>
+		<div class="modal-content">
+			<div class="filter-area" style="overflow: hidden; height: auto; width: inherit;">
+				<div class="filter-col">
+				
+					<div class="filter-block">
+						<button class="ar-accordion" type="submit"></button>
+						<div class="filter-panel"></div>
+					</div>
+					
+					<div class="filter-block">
+						<button class="ar-accordion" type="submit"></button>
+						<div class="filter-panel"></div>
+					</div>
+					
+					<div class="filter-block">
+						<button class="ar-accordion" type="submit"></button>
+						<div class="filter-panel"></div>
+					</div>
+					
+					<div class="filter-block">
+						<button class="ar-accordion" type="submit"></button>
+						<div class="filter-panel"></div>
+					</div>
+
+					<div class="filter-block">
+						<button class="ar-accordion" type="submit"></button>
+						<div class="filter-panel"></div>
+					</div>
+					
+					<div class="filter-block">
+						<button class="ar-accordion" type="submit"></button>
+						<div class="filter-panel"></div>
+					</div>
+					
+					<div class="filter-block">
+						<button class="ar-accordion" type="submit"></button>
+						<div class="filter-panel"></div>
+					</div>
+					
+					<div class="filter-block">
+						<button class="ar-accordion" type="submit"></button>
+						<div class="filter-panel"></div>
+					</div>
+					
+				</div>
+
+				<div class="filter-col">
+					<div class="filter-block">
+						<button class="ar-accordion" type="submit"></button>
+						<div class="filter-panel"></div>
+					</div>
+
+					<div class="filter-block">
+						<button class="ar-accordion" type="submit"></button>
+						<div class="filter-panel"></div>
+					</div>
+
+					<div class="filter-block">
+						<button class="ar-accordion" type="submit"></button>
+						<div class="filter-panel"></div>
+					</div>
+
+					<div class="filter-block">
+						<button class="ar-accordion" type="submit"></button>
+						<div class="filter-panel"></div>
+					</div>
+					
+					<div class="filter-block">
+						<button class="ar-accordion" type="submit"></button>
+						<div class="filter-panel"></div>
+					</div>
+					
+					<div class="filter-block">
+						<button class="ar-accordion" type="submit"></button>
+						<div class="filter-panel"></div>
+					</div>
+					
+					<div class="filter-block">
+						<button class="ar-accordion" type="submit"></button>
+						<div class="filter-panel"></div>
+					</div>
+					
+					<div class="filter-block">
+						<button class="ar-accordion" type="submit"></button>
+						<div class="filter-panel"></div>
+					</div>
+				</div>
+				
+				<div class="filter-col">
+
+					<div class="filter-block">
+						<button class="ar-accordion" type="submit"></button>
+						<div class="filter-panel"></div>
+					</div>
+
+					<div class="filter-block">
+						<button class="ar-accordion" type="submit"></button>
+						<div class="filter-panel"></div>
+					</div>
+
+					<div class="filter-block">
+						<button class="ar-accordion" type="submit"></button>
+						<div class="filter-panel"></div>
+					</div>
+
+					<div class="filter-block">
+						<button class="ar-accordion" type="submit"></button>
+						<div class="filter-panel"></div>
+					</div>
+
+					<div class="filter-block">
+						<button class="ar-accordion" type="submit"></button>
+						<div class="filter-panel"></div>
+					</div>
+					<div class="filter-block">
+						<button class="ar-accordion" type="submit"></button>
+						<div class="filter-panel"></div>
+					</div>
+					
+					<div class="filter-block">
+						<button class="ar-accordion" type="submit"></button>
+						<div class="filter-panel"></div>
+					</div>
+					
+					<div class="filter-block">
+						<button class="ar-accordion" type="submit"></button>
+						<div class="filter-panel"></div>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+</div>
+
+`);
+
+        function checkFilters() {
+            try {
+                if (document.querySelector('#ar-filter').firstChild != null) {
+                    console.log('AR filters initialized ...');
+
+                    document.querySelector('#ar-filter-box').insertAdjacentHTML('afterbegin', `
+				<div id='ar-filter-initialized'></div>
+				`);
+
+                    try {
+                        document.querySelector('#ar-filter-init').style.opacity = 1;
+                        document.querySelector('#ar-filter-init').style.pointerEvents = 'auto';
+
+
+                        if (document.querySelector('#ar-marking-reset').children.length > 0) {
+                            document.querySelector('#ar-marking-reset-btn').style.opacity = 1;
+                            document.querySelector('#ar-marking-reset-btn').style.pointerEvents = 'auto';
+                        }
+                    } catch (e) {}
+
+                    for (var i = 0; i < document.querySelectorAll('#ar-filter-container>#ar-filter').length; i++) {
+                        if (i < document.querySelectorAll('.filter-col>.filter-block').length) {
+
+                            var c = ((i + 1) % 3);
+                            var r = Math.floor((i + 1) / 3);
+
+                            switch (c) {
+                                case 1:
+                                    var t = r;
+                                    break;
+                                case 2:
+                                    var t = r + 8;
+                                    break;
+                                case 0:
+                                    var t = r + 15;
+                                    break;
+                            }
+
+                            document.querySelectorAll('.filter-col>.filter-block>.ar-accordion')[t].textContent = document.querySelectorAll('#ar-filter-container>#ar-filter')[i].getAttribute('title');
+                            if (document.querySelectorAll('#ar-filter-container>#ar-filter')[i].children.length > 1) {
+                                document.querySelectorAll('.filter-col>.filter-block>.filter-panel')[t].insertAdjacentHTML('afterbegin', `
+						<div class='ar-filter-group-control' style='background-color: #353B3E;;height: 18px; text-align: center;font-size: 18px;'><div class='ar-filter-group-open'>+</div><div class='ar-filter-group-close'>-</div></div>
+						`);
+                                for (var j = 0; j < document.querySelectorAll('#ar-filter-container>#ar-filter')[i].children.length; j++) {
+                                    document.querySelectorAll('.filter-col>.filter-block>.filter-panel')[t].insertAdjacentHTML('beforeend', `
+								<div class="filter-block">
+									<button class="ar-accordion" type="submit"></button>
+									<div class="filter-panel"></div>
+								</div>					
+							`);
+
+                                    if (document.querySelectorAll('#ar-filter-container>#ar-filter')[i].children[j].children.length > 1) {
+                                        document.querySelectorAll('.filter-col>.filter-block>.filter-panel')[t].querySelectorAll('.filter-panel')[j].insertAdjacentHTML('afterbegin', `
+								<div class='ar-filter-group-control' style='background-color:rgb(0,0,0,0.5) ;height: 18px; text-align: center;font-size: 18px;'><div class='ar-filter-group-open'>+</div><div class='ar-filter-group-close'>-</div></div>
+								`);
+                                        for (var k = 0; k < document.querySelectorAll('#ar-filter-container>#ar-filter')[i].children[j].children.length; k++) {
+                                            document.querySelectorAll('.filter-col>.filter-block>.filter-panel')[t].querySelectorAll('.filter-panel')[j].insertAdjacentHTML('beforeend', `
+									<div class="filter-block">
+										<button class="ar-accordion" type="submit"></button>
+										<div class="filter-panel"></div>
+									</div>					
+									`);
+                                            document.querySelectorAll('.filter-col>.filter-block>.filter-panel')[t].querySelectorAll('.filter-panel')[j].querySelectorAll('.ar-accordion')[k].textContent = document.querySelectorAll('#ar-filter-container>#ar-filter')[i].querySelectorAll('#ar-filter')[j].querySelectorAll('#ar-filter')[k].getAttribute('title');
+                                            document.querySelectorAll('.filter-col>.filter-block>.filter-panel')[t].querySelectorAll('.filter-panel')[j].querySelectorAll('.filter-panel')[k].appendChild(document.querySelectorAll('#ar-filter-container>#ar-filter')[i].querySelectorAll('#ar-filter')[j].querySelectorAll('#ar-filter')[k].firstElementChild);
+                                        }
+                                    }
+                                }
+
+
+                                for (var j = 0; j < document.querySelectorAll('#ar-filter-container>#ar-filter')[i].children.length; j++) {
+                                    document.querySelectorAll('.filter-col>.filter-block')[t].querySelectorAll('.filter-panel>.filter-block>.ar-accordion')[j].textContent = document.querySelectorAll('#ar-filter-container>#ar-filter')[i].querySelectorAll('#ar-filter')[j].getAttribute('title');
+                                    document.querySelectorAll('.filter-col>.filter-block')[t].querySelectorAll('.filter-panel>.filter-block>.filter-panel')[j].appendChild(document.querySelectorAll('#ar-filter-container>#ar-filter')[i].querySelectorAll('#ar-filter')[j].firstElementChild);
+                                }
+                            } else {
+                                document.querySelectorAll('.filter-col>.filter-block>.filter-panel')[t].appendChild(document.querySelectorAll('#ar-filter-container>#ar-filter')[i].firstElementChild);
+                            }
+                        }
+                    }
+
+                    document.querySelectorAll('.filter-col>.filter-block').forEach(fb => {
+                        if (fb.querySelector('.ar-accordion').textContent == '') {
+                            fb.style.display = 'none';
+                        }
+                    });
+
+                    document.querySelector('#expand-all-filters').addEventListener('click', function() {
+                        for (var i = 0; i < document.querySelectorAll(".ar-accordion").length; i++) {
+                            if (!document.querySelectorAll(".ar-accordion")[i].matches('.triggered')) {
+                                document.querySelectorAll(".ar-accordion")[i].click();
+                            }
+                        }
+                    });
+
+                    document.querySelector('#collapse-all-filters').addEventListener('click', function() {
+                        for (var i = 0; i < document.querySelectorAll(".ar-accordion").length; i++) {
+                            if (document.querySelectorAll(".ar-accordion")[i].matches('.triggered')) {
+                                document.querySelectorAll(".ar-accordion")[i].click();
+                            }
+                        }
+                    });
+
+                    document.querySelectorAll('.ar-filter-group-open').forEach(ar => {
+                        ar.addEventListener('click', function() {
+                            ar.parentNode.parentNode.querySelectorAll(':scope>.filter-block>.ar-accordion').forEach(acc => {
+                                if (!acc.matches('.triggered')) {
+                                    acc.click();
+                                }
+                            });
+                        });
+                    });
+
+                    document.querySelectorAll('.ar-filter-group-close').forEach(ar => {
+                        ar.addEventListener('click', function() {
+                            var close = 0;
+                            ar.parentNode.parentNode.querySelectorAll(':scope>.filter-block>.ar-accordion').forEach(acc => {
+                                if (acc.matches('.triggered')) {
+                                    acc.click();
+                                    close = 1;
+                                }
+                            });
+                            if (close == 0) {
+                                ar.parentNode.parentNode.parentNode.querySelector(':scope>.ar-accordion').click();
+                            }
+                        });
+                    });
+
+
+                    try {
+                        if (window.location.href.includes('&ar+')) {
+                            document.querySelector('#ar-filter-help').style.display = 'block';
+                        }
+
+                    } catch (e) {}
+
+                    try {
+                        if ((document.querySelectorAll('#ar-filter:first-child').length > 0) && (document.querySelectorAll('#ar-filter-container>#ar-filter-reset').length > 0)) {
+                            document.querySelector('.filter-block#ar-filter-reset').appendChild(document.querySelector('#ar-filter-container>#ar-filter-reset>a'));
+                        }
+                    } catch (e) {}
+
+                    document.querySelectorAll('.ar-accordion').forEach(acc => {
+                        acc.addEventListener("click", function() {
+                            var panel = this.parentNode.querySelector('.filter-panel');
+                            if (panel.style.maxHeight) {
+                                panel.style.transition = "0.2s";
+                                panel.style.maxHeight = null;
+                            } else {
+                                panel.style.transition = "1s";
+                                panel.style.maxHeight = 1280 + "px";
+                            }
+
+                            if (!this.matches('.triggered')) {
+                                this.classList.add('triggered');
+                            } else {
+                                this.classList.remove('triggered');
+                            }
+
+                            document.querySelector('#ar-filter-help').style.display = 'none';
+                            history.pushState('', '', window.location.href.replace('ar+', 'ar-'));
+
+                        });
+                    });
+
+
+                } else {
+                    //console.log("Filters not available ... ");
+                }
+            } catch (e) {}
+        }
+
+
+
+
+        // INITIALIZING DYNAMIC UI ELEMENTS
+        /*setTimeout(function() {
+            var cnt = 0;
+            console.log('Initializing A&R Custom UI ...');
+
+            let timerCheckFilters = setInterval(function() {
+                checkInfo();
+                checkFilters();
+
+                cnt += 1;
+                if (cnt > 10) {
+                    console.log('A&R Custom UI initialization complete.');
+                    clearInterval(timerCheckFilters);
+                }
+            }, 100);
+
+        }, 100);*/
+
+        checkFilters();
+        checkInfo();
+
+
+
+        // FILTER SUMMARY CONFIGURATION ##################################################################################
+
+
+        document.querySelector('#ar-anchor').insertAdjacentHTML('afterbegin', `
+<div id='filter-summary-banner'style='z-index: 100; position: fixed; width: auto; height: 0; background-color: #C37D2A; opacity: 1; line-height: 16px; border-radius: 0 0 10px 10px; width: 36%; left: 32%; text-align: center; font-size: 14px;box-shadow: rgba(0, 0, 0, 0.5) 0px 6px 16px; z-index: 100; overflow: hidden; transition: 0.2s'>
+<DIV id=filter-summary-text style="font-size: 12px; height: 60px; overflow: hidden auto;"></div>
+<DIV id=filter-summary-handle style="display: flex; height: 18px; background-color: #F49C34; position: absolute; bottom: 0; width: 100%;border-radius: 0 0 10px 10px; cursor: pointer;">
+<div style='width: 100%'  onclick="const banner = document.querySelector('#filter-summary-banner'); if(banner.style.height != 18 + 'px'){banner.style.height = 18 +'px';document.querySelector('#filter-summary-banner-handle-icon').style.transform = 'rotate(270deg)' }else{banner.style.height = 80 +'px';document.querySelector('#filter-summary-banner-handle-icon').style.transform = 'rotate(90deg)'}">Filters In Effect
+<div id='filter-summary-banner-handle-icon' style="transform: rotate(270deg); display: inline-block; font-size: 18px;" >&#10096;</div></div>
+<div style='height: 100%; width: 15%; position: absolute; right:0; z-index: 9999' onclick="document.querySelector('#ar-filter-reset>a').click()">Reset&nbsp;&#8634;</div></DIV>
+`);
+
+        document.querySelector('#filter-summary-banner').style.top = document.querySelector('div[class^="sfx_canvas"]').getBoundingClientRect().top + 'px';
+
+        setTimeout(function() {
+
+            try {
+                document.querySelector('#fs-trigger>a').click();
+            } catch (e) {}
+
+            setTimeout(function() {
+                try {
+                    document.querySelector('#filter-summary-text').innerHTML = document.querySelector('#fs-trigger>input').value.substring(2);
+                    if (document.querySelector('#fs-trigger>input').value != '>>') {
+                        if (document.querySelector('#filter-summary-banner').style.height == 0 + 'px') {
+                            document.querySelector('#filter-summary-banner').style.height = 18 + 'px';
+                        }
+                    } else {
+                        document.querySelector('#filter-summary-banner').style.height = 0 + 'px';
+                        document.querySelector('#filter-summary-banner-handle-icon').style.transform = 'rotate(270deg)';
+                    }
+                } catch (e) {}
+            }, 1000);
+
+
+        }, 200);
+
+
+        setTimeout(function() {
+            try {
+                // Select the node that will be observed for mutations
+                const targetNode = document.querySelector('#fs-trigger>input');
+                //var targetNode = document.body;
+
+
+                // Options for the observer (which mutations to observe)
+                const config = {
+                    attributes: true,
+                    childList: true,
+                    subtree: true
+                };
+
+                // Callback function to execute when mutations are observed
+                const callback = function(mutationsList, observer) {
+                    // Use traditional 'for loops' for IE 11
+					try{
+						for (const mutation of mutationsList) {
+							if (mutation.type === 'childList') {
+								console.log('A child node has been added or removed.');
+							} else if (mutation.type === 'attributes') {
+								//console.log('The ' + mutation.attributeName + ' attribute was modified.');
+								setTimeout(function() {
+									document.querySelector('#filter-summary-text').innerHTML = document.querySelector('#fs-trigger>input').value.substring(2);
+									console.log(document.querySelector('#filter-summary-text').textContent);
+									if (document.querySelector('#fs-trigger>input').value != '>>') {
+										if (document.querySelector('#filter-summary-banner').style.height == 0 + 'px') {
+											document.querySelector('#filter-summary-banner').style.height = 18 + 'px';
+										}
+									} else {
+										document.querySelector('#filter-summary-banner').style.height = 0 + 'px';
+										document.querySelector('#filter-summary-banner-handle-icon').style.transform = 'rotate(270deg)';
+									}
+								}, 200);
+							}
+
+						}
+					}catch(e){}
+                };
+
+
+                // Create an observer instance linked to the callback function
+                const observer = new MutationObserver(callback);
+
+                // Start observing the target node for configured mutations
+                observer.observe(targetNode, config);
+            } catch (e) {}
+        }, 200);
+
+
+
+    } catch (e) {}
