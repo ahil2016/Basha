@@ -137,6 +137,31 @@
 	.font-sizes{
 		font-size:9px;
 		}
+
+        .orders-row {
+            display: flex;
+            justify-content: space-between;
+        }
+        .orders-row  .orders-col-heading {
+            height: 18px;
+            margin-bottom: 4px;
+        }
+        .val {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            border: 1px solid #ccc;
+        }
+        .actualplan {
+            font-size: 9px;
+        }
+        .height45 {
+            height: 45px;
+        }
+       .row-heading {
+        display: flex;
+        align-items: center;
+       }
     </style>
 </head>
 
@@ -162,12 +187,53 @@
             <div class="Orders-sub-cat-val Orders-actual-background-mtd">999</div>
             <div class="Orders-sub-cat-val-second Orders-actual-background-ytd">&nbsp;&nbsp;999</div>
         </div>
-	        <div class="gcd-main">
+	    <div class="gcd-main">
             <div class="gcd-actual-val">(1000/2000)</div>
             <div class="gcd-plan-val">(1000/2000)</div>
         </div>
         
     </div>
+
+    <div class="Orders-Card">
+        <div class="orders-row">
+            <div class="orders-col">
+                <div class="orders-col-heading"></div>
+                <div class="height45 row-heading">GCD</div>
+                <div class="height45 row-heading">MCS</div>
+            </div>
+            <div class="orders-col">
+                <div class="orders-col-heading">MTD</div>
+                <div class="height45">
+                    <div class="val-wrapper">
+                        <div class="val">999</div>
+                    </div>
+                    <div class="actualplan">(1000/2000)</div>
+                </div>
+                <div class="height45">
+                    <div class="val-wrapper">
+                        <div class="val">999</div>
+                    </div>
+                    <div class="actualplan">(1000/2000)</div>
+                </div>
+            </div>
+            <div class="orders-col">
+                <div class="orders-col-heading">YTD</div>
+                <div class="height45">
+                    <div class="val-wrapper">
+                        <div class="val">999</div>
+                    </div>
+                    <div class="actualplan">(1000/2000)</div>
+                </div>
+                <div class="height45">
+                    <div class="val-wrapper">
+                        <div class="val">999</div>
+                    </div>
+                    <div class="actualplan">(1000/2000)</div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
+
