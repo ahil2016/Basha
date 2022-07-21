@@ -1,0 +1,173 @@
+<div id="compare_MTD" class="display-none">
+    <SpotfireControl id="9bc3992a90e14e1fb49c61718954f044" />
+</div>
+<div id="compare_YTD" class="display-none">
+    <SpotfireControl id="657d03211f2b4465bea50e09e85b01d7" />
+</div>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .display-none {
+            display: none;
+        }
+
+        .Orders-Card {
+
+            margin-top: 2px;
+            height: auto;
+            padding: 2px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            background-color: #fff;
+            box-shadow: 0 2px 8px 0 #ccc, 0 2px 6px 0 #ccc;
+        }
+
+        .Orders-mtdYtd-sub-category-title {
+            display: flex;
+            position: relative;
+            color: #3a3a3a;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .Orders-mtd-title {
+
+            margin-left: auto;
+            margin-right: 38px;
+        }
+
+        .Orders-row-category {
+
+            display: flex;
+            font-size: 12px;
+            font-weight: bold;
+            margin-top: 8px;
+            padding: 2px;
+
+        }
+
+        .Orders-sub-cat-val {
+
+            margin-left: auto;
+            margin-right: 11px;
+            width: 50px;
+            text-align: center;
+        }
+
+        .Orders-second-val-heading {
+
+            margin-right: 48px;
+        }
+
+        .Orders-sub-cat-val-second {
+            margin-right: 10px;
+
+
+        }
+
+     
+
+        .Orders-actual-marginLeft {
+
+            margin-right: 18px;
+
+        }
+
+        .Orders-actual-background-mtd {
+            border-radius: 12px;
+            //background-color: skyblue;
+	    border:1px solid #ccc;
+            
+        }
+
+        .Orders-actual-background-ytd {
+            border-radius: 12px;
+            
+            padding-left: 6px;
+            padding-right: 6px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            width: 52px;
+	    border:1px solid #ccc;
+
+        }
+
+        #Orders-MTD,
+        #Orders-YTD {
+
+            width: 50px;
+
+            text-align: center;
+            margin-right: 12px;
+        }
+
+        .MRQ-color {
+            background-color: #D0E3EE !important;
+        }
+
+        .QTD-color {
+            background-color: #D8EEFA;
+        }
+
+        .TTM-color {
+            background-color: #C9EAFC;
+        }
+
+        .gcd-actual-val {
+            margin-right: auto;
+            margin-left: 82px;
+	    font-size:9px;
+        }
+
+        .gcd-plan-val {
+            margin-right: 18px;
+            
+	    font-size:9px;
+        }
+	.gcd-main{
+		 display: flex;
+		 padding: 0px 15px;
+		}
+	.font-sizes{
+		font-size:9px;
+		}
+    </style>
+</head>
+
+<body>
+    <div class="Orders-Card">
+        <div class="Orders-mtdYtd-sub-category-title">
+            <div></div>
+            <div class="Orders-mtd-title ">MTD</div>
+            <div class="Orders-second-val-heading">YTD</div>
+        </div>
+        <div class="Orders-row-category">
+            <div>GCD </div>
+            <div 
+                class="Orders-sub-cat-val Orders-actual-marginRight Orders-actual-background-mtd">999</div>
+            <div class="Orders-sub-cat-val-second Orders-actual-marginLeft Orders-actual-background-ytd">999</div>
+        </div>
+        <div class="gcd-main">
+            <div class="gcd-actual-val">(1000/2000)</div>
+            <div class="gcd-plan-val">(1000/2000)</div>
+        </div> 
+        <div class="Orders-row-category">
+            <div class="">MCS</div>
+            <div class="Orders-sub-cat-val Orders-actual-background-mtd">999</div>
+            <div class="Orders-sub-cat-val-second Orders-actual-background-ytd">&nbsp;&nbsp;999</div>
+        </div>
+	        <div class="gcd-main">
+            <div class="gcd-actual-val">(1000/2000)</div>
+            <div class="gcd-plan-val">(1000/2000)</div>
+        </div>
+        
+    </div>
+</body>
+
+</html>
