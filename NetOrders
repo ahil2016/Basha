@@ -166,33 +166,7 @@
 </head>
 
 <body>
-    <div class="Orders-Card">
-        <div class="Orders-mtdYtd-sub-category-title">
-            <div></div>
-            <div class="Orders-mtd-title ">MTD</div>
-            <div class="Orders-second-val-heading">YTD</div>
-        </div>
-        <div class="Orders-row-category">
-            <div>GCD </div>
-            <div 
-                class="Orders-sub-cat-val Orders-actual-marginRight Orders-actual-background-mtd">999</div>
-            <div class="Orders-sub-cat-val-second Orders-actual-marginLeft Orders-actual-background-ytd">999</div>
-        </div>
-        <div class="gcd-main">
-            <div class="gcd-actual-val">(1000/2000)</div>
-            <div class="gcd-plan-val">(1000/2000)</div>
-        </div> 
-        <div class="Orders-row-category">
-            <div class="">MCS</div>
-            <div class="Orders-sub-cat-val Orders-actual-background-mtd">999</div>
-            <div class="Orders-sub-cat-val-second Orders-actual-background-ytd">&nbsp;&nbsp;999</div>
-        </div>
-	    <div class="gcd-main">
-            <div class="gcd-actual-val">(1000/2000)</div>
-            <div class="gcd-plan-val">(1000/2000)</div>
-        </div>
-        
-    </div>
+
 
     <div class="Orders-Card">
         <div class="orders-row">
