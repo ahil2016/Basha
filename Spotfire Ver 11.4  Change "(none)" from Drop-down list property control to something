@@ -1,0 +1,30 @@
+Spotfire 11.4 version : Change "(none)" from Drop-down list property control to something else
+
+Old link : https://spotfired.blogspot.com/2015/08/change-none-from-drop-down-list.html
+
+JavaScript :
+
+********************************** Updated code *********************
+<script>
+
+//change (None) to ALL 
+function changeSelection(){
+  $("#ddowns .sf-element-text-box").each(function(i,e){
+   if (e.innerHTML=="(None)") 
+	b=e.innerHTML="All Sites"
+	console.log(b);
+  })
+}
+
+//change (None) when dropdown is visible
+$("#ddowns").on('click',function(event){	
+	a=document.querySelectorAll(".DropdownListContainer .ListItems .sf-element-dropdown-list-item")[0]
+	console.log(a);
+	a.innerText="(All Sites)" 
+	setTimeout(changeSelection,100) //if does not work, increase this value
+})
+
+//change (None) first time
+changeSelection()
+
+</script>
